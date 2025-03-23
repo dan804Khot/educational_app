@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">EducationApp</string>
+    <string name="login">Вход</string>
+    <string name="email_hint">e-mail</string>
+    <string name="password_hint">Пароль</string>
+    <string name="login_button">Войти</string>
+    <string name="register">Зарегистрироваться</string>
+</resources>

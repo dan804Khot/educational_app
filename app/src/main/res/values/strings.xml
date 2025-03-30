@@ -5,4 +5,9 @@
     <string name="password_hint">Пароль</string>
     <string name="login_button">Войти</string>
     <string name="register">Зарегистрироваться</string>
+    <string name="group">Группа</string>
+    <string name="dad_name">Отчество</string>
+    <string name="surname">Фамилия</string>
+    <string name="name">Имя</string>
+    <string name="reg">Регистрация</string>
 </resources>

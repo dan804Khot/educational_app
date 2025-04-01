@@ -27,7 +27,9 @@ class MainActivity : AppCompatActivity() {
             if (emailText.isEmpty() || passwordText.isEmpty()) {
                 Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Вход выполнен!", Toast.LENGTH_SHORT).show()
+                //если данные введены, переходим на ChoiceOfDisciplinesActivity
+                val intent = Intent(this, ChoiceOfDisciplinesActivity::class.java)
+                startActivity(intent)
             }
         }
 

@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ChoiceOfDisciplinesActivity"/>
+        <activity android:name=".RatingActivity" />
+        <activity android:name=".UserStatisticsActivity" />
     </application>
 
 </manifest>

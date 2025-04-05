@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/white">
+
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="69dp"
+        android:layout_height="48dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Назад"
+        android:src="@drawable/ic_arrow_back" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Рейтинг"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/rating_header_background"
+        android:padding="12dp"
+        android:textColor="@android:color/black" />
+
+    <!-- Список рейтинга -->
+    <ListView
+        android:id="@+id/rating_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
+
+    <!-- Дата обновления -->
+    <Button
+        android:id="@+id/update_date_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Дата обновления:"
+        android:background="@drawable/button_pink"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>

@@ -1,108 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
-    android:gravity="center">
+    android:background="@drawable/background_reg">
 
-    <LinearLayout
-        android:layout_width="300dp"
+    <!-- Заголовок -->
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_background"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:gravity="center"
-        android:layout_centerInParent="true">
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Регистрация"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/reg"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"/>
+    <!-- Центрированный блок регистрации -->
+    <LinearLayout
+        android:id="@+id/form_container"
+        android:layout_width="300dp"
+        android:layout_height="510dp"
+        android:layout_below="@id/title_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/small_background_reg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/email_hint"
-            android:background="@android:drawable/editbox_background"
-            android:padding="12dp"
-            android:minHeight="48dp"
-            android:textSize="16sp"
             android:autofillHints="emailAddress"
-            android:inputType="textEmailAddress" />
+            android:background="@drawable/rounded_white_input"
+            android:hint="@string/email_hint"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
+            android:background="@drawable/rounded_white_input"
             android:hint="@string/name"
-            android:background="@android:drawable/editbox_background"
-            android:padding="12dp"
+            android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:textSize="16sp"
-            android:inputType="textPersonName" />
+            android:padding="12dp"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
+            android:background="@drawable/rounded_white_input"
             android:hint="@string/surname"
-            android:background="@android:drawable/editbox_background"
-            android:padding="12dp"
+            android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:textSize="16sp"
-            android:inputType="textPersonName" />
+            android:padding="12dp"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/middle_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
+            android:background="@drawable/rounded_white_input"
             android:hint="@string/dad_name"
-            android:background="@android:drawable/editbox_background"
-            android:padding="12dp"
+            android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:textSize="16sp"
-            android:inputType="textPersonName" />
+            android:padding="12dp"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
+            android:background="@drawable/rounded_white_input"
             android:hint="@string/group"
-            android:background="@android:drawable/editbox_background"
-            android:padding="12dp"
+            android:inputType="text"
             android:minHeight="48dp"
-            android:textSize="16sp"
-            android:inputType="text" />
+            android:padding="12dp"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password_hint"
             android:autofillHints="password"
+            android:background="@drawable/rounded_white_input"
+            android:hint="@string/password_hint"
             android:inputType="textPassword"
-            android:background="@android:drawable/editbox_background"
-            android:padding="12dp"
             android:minHeight="48dp"
-            android:textSize="16sp"
-            />
+            android:padding="12dp"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/register_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/register"
-            android:backgroundTint="@color/green"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_dark_button"
+            android:text="Зарегистрироваться"
             android:textColor="@android:color/white"
-            android:layout_marginBottom="10dp"/>
+            android:elevation="8dp" />
     </LinearLayout>
+
+    <!-- Кнопка назад -->
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/button_back"
+        android:contentDescription="Назад"
+        android:src="@drawable/ic_arrow_back"
+        tools:ignore="TouchTargetSizeCheck" />
 </RelativeLayout>

@@ -30,7 +30,7 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="463dp"
+            android:layout_marginEnd="431dp"
             android:background="@null"
             android:contentDescription="Назад"
             android:src="@drawable/ic_arrow_back"
@@ -48,36 +48,43 @@
         <TextView android:id="@+id/text_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:text="ID пользв.:" />
 
         <TextView android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:text="Имя пользв.:" />
 
         <TextView android:id="@+id/text_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:text="Группа:" />
 
         <TextView android:id="@+id/text_levels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:text="Кол-во пройденных уровней:" />
 
         <TextView android:id="@+id/text_current_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:text="Текущий уровень:" />
 
         <TextView android:id="@+id/text_current_world"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:text="Текущий мир дисциплины:" />
 
         <TextView android:id="@+id/text_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:text="Список в рейте:" />
     </LinearLayout>
 

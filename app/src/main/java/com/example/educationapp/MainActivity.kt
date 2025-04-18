@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         val email: EditText = findViewById(R.id.email)
         val password: EditText = findViewById(R.id.password)
         val loginButton: Button = findViewById(R.id.login_button)
-        val register: TextView = findViewById(R.id.register)
+        val register: TextView = findViewById(R.id.register_button)
 
         // Обработчик кнопки входа
         loginButton.setOnClickListener {

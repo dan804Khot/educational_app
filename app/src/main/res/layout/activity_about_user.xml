@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"
+        android:contentDescription="Назад"
+        android:src="@drawable/ic_arrow_back"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/about_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Обо мне"
+        android:background="@drawable/button_blue"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp" />
+
+    <EditText
+        android:id="@+id/full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/about_button"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/editbox_background"
+        android:hint="ФИО:"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/full_name"
+        android:layout_marginTop="10dp"
+        android:background="@android:drawable/editbox_background"
+        android:hint="Группа:"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/about_text"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:hint="Текст о себе (необязательно)"
+        android:layout_below="@id/group"
+        android:layout_marginTop="10dp"
+        android:background="@android:drawable/editbox_background"
+        android:gravity="top"
+        android:inputType="textMultiLine" />
+</RelativeLayout>

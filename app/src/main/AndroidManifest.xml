@@ -27,6 +27,8 @@
         <activity android:name=".ChoiceOfDisciplinesActivity"/>
         <activity android:name=".RatingActivity" />
         <activity android:name=".UserStatisticsActivity" />
+        <activity android:name=".AboutMeActivity" />
+        <activity android:name=".LevelMapActivity" />
     </application>
 
 </manifest>

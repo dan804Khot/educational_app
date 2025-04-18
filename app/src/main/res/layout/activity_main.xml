@@ -1,74 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
+    android:background="@drawable/background_log_in"
     android:gravity="center">
 
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/small_background_log_in"
         android:orientation="vertical"
         android:padding="20dp"
         android:gravity="center"
         android:layout_centerInParent="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"/>
-
         <EditText
             android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/email_hint"
-            android:background="@android:drawable/editbox_background"
-            android:padding="12dp"
-            android:minHeight="48dp"
-            android:textSize="16sp"
-            android:autofillHints="emailAddress"
+            android:layout_width="233dp"
+            android:layout_height="48dp"
+            android:background="@drawable/rounded_white_input"
+            android:hint="e-mail"
             android:inputType="textEmailAddress"
-            />
-
+            android:padding="12dp"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/password_hint"
-            android:autofillHints="password"
+            android:layout_width="234dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_white_input"
+            android:hint="Пароль"
             android:inputType="textPassword"
-            android:background="@android:drawable/editbox_background"
             android:padding="12dp"
-            android:minHeight="48dp"
-            android:textSize="16sp"
-            />
-
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/login_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/login_button"
-            android:backgroundTint="@color/green"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="10dp"/>
+            android:layout_width="232dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_dark_button"
+            android:backgroundTint="@null"
+            android:elevation="0dp"
+            android:padding="0dp"
+            android:stateListAnimator="@null"
+            android:text="Войти"
+            android:textColor="@android:color/white" />
 
-        <TextView
-            android:id="@+id/register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/register"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="14sp"
-            android:gravity="center"
-            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="229dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_dark_button"
+            android:radius="24dp"
+            android:text="Зарегистрироваться"
+            android:textColor="@android:color/white" />
     </LinearLayout>
-
 </RelativeLayout>

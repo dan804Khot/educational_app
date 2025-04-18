@@ -6,26 +6,14 @@
     android:background="@drawable/background_reg">
 
     <!-- Заголовок -->
-    <TextView
-        android:id="@+id/title_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="Регистрация"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white" />
 
     <!-- Центрированный блок регистрации -->
     <LinearLayout
         android:id="@+id/form_container"
         android:layout_width="300dp"
-        android:layout_height="510dp"
-        android:layout_below="@id/title_text"
+        android:layout_height="570dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/small_background_reg"
         android:gravity="center"
         android:orientation="vertical"
@@ -33,11 +21,12 @@
 
         <EditText
             android:id="@+id/email"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:autofillHints="emailAddress"
             android:background="@drawable/rounded_white_input"
             android:hint="@string/email_hint"
+            android:layout_marginTop="12dp"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
             android:padding="12dp"
@@ -45,8 +34,9 @@
 
         <EditText
             android:id="@+id/first_name"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:background="@drawable/rounded_white_input"
             android:hint="@string/name"
             android:inputType="textPersonName"
@@ -56,8 +46,9 @@
 
         <EditText
             android:id="@+id/last_name"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:background="@drawable/rounded_white_input"
             android:hint="@string/surname"
             android:inputType="textPersonName"
@@ -67,8 +58,9 @@
 
         <EditText
             android:id="@+id/middle_name"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:background="@drawable/rounded_white_input"
             android:hint="@string/dad_name"
             android:inputType="textPersonName"
@@ -78,8 +70,9 @@
 
         <EditText
             android:id="@+id/group"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:background="@drawable/rounded_white_input"
             android:hint="@string/group"
             android:inputType="text"
@@ -89,8 +82,9 @@
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:autofillHints="password"
             android:background="@drawable/rounded_white_input"
             android:hint="@string/password_hint"
@@ -101,13 +95,13 @@
 
         <Button
             android:id="@+id/register_button"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/rounded_dark_button"
+            android:elevation="8dp"
             android:text="Зарегистрироваться"
-            android:textColor="@android:color/white"
-            android:elevation="8dp" />
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
     <!-- Кнопка назад -->
@@ -120,6 +114,5 @@
         android:layout_marginTop="25dp"
         android:background="@drawable/button_back"
         android:contentDescription="Назад"
-        android:src="@drawable/ic_arrow_back"
         tools:ignore="TouchTargetSizeCheck" />
 </RelativeLayout>

@@ -3,56 +3,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="@drawable/statistic_background">
 
+    <!-- Центрированный блок -->
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="125dp"
+        android:orientation="vertical"
+        android:background="@drawable/small_statisctic_background"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
+
+        <!-- Заголовок -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Обо мне"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:background="@drawable/rounded_title_background"
+            android:padding="12dp" />
+
+        <!-- Поле ФИО -->
+        <EditText
+            android:id="@+id/full_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_stat_field"
+            android:hint="ФИО:"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <!-- Поле Группа -->
+        <EditText
+            android:id="@+id/group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_stat_field"
+            android:hint="Группа:"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <!-- Поле "О себе" -->
+        <EditText
+            android:id="@+id/about_text"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:hint="Текст о себе (необязательно)"
+            android:background="@drawable/rounded_stat_field"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Кнопка (например, сохранить) -->
+        <Button
+            android:id="@+id/about_button"
+            android:layout_width="200dp"
+            android:layout_height="48dp"
+            android:text="Сохранить"
+            android:textColor="@android:color/white"
+            android:background="@drawable/rounded_dark_button"
+            android:layout_marginTop="30dp"
+            android:elevation="8dp" />
+    </LinearLayout>
+
+    <!-- Кнопка назад -->
     <ImageButton
         android:id="@+id/back_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
-        android:background="@android:color/transparent"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/button_back"
         android:contentDescription="Назад"
-        android:src="@drawable/ic_arrow_back"
         tools:ignore="TouchTargetSizeCheck" />
-
-    <Button
-        android:id="@+id/about_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Обо мне"
-        android:background="@drawable/button_blue"
-        android:textColor="@android:color/white"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp" />
-
-    <EditText
-        android:id="@+id/full_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/about_button"
-        android:layout_marginTop="20dp"
-        android:background="@android:drawable/editbox_background"
-        android:hint="ФИО:"
-        android:minHeight="48dp" />
-
-    <EditText
-        android:id="@+id/group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/full_name"
-        android:layout_marginTop="10dp"
-        android:background="@android:drawable/editbox_background"
-        android:hint="Группа:"
-        android:minHeight="48dp" />
-
-    <EditText
-        android:id="@+id/about_text"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:hint="Текст о себе (необязательно)"
-        android:layout_below="@id/group"
-        android:layout_marginTop="10dp"
-        android:background="@android:drawable/editbox_background"
-        android:gravity="top"
-        android:inputType="textMultiLine" />
 </RelativeLayout>

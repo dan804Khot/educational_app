@@ -13,19 +13,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_reg)
 
         // Градиентный заголовок
-        val titleText: TextView = findViewById(R.id.title_text)
-        titleText.post {
-            val paint = titleText.paint
-            val width = paint.measureText(titleText.text.toString())
-            val shader = LinearGradient(
-                0f, 0f, width, titleText.textSize,
-                intArrayOf(Color.WHITE, Color.LTGRAY),
-                null,
-                Shader.TileMode.CLAMP
-            )
-            titleText.paint.shader = shader
-            titleText.setShadowLayer(10f, 0f, 0f, Color.WHITE)
-        }
+
 
         // Найдем элементы интерфейса
         val email: EditText = findViewById(R.id.email)

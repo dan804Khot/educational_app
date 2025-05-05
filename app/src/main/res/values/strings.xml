@@ -11,4 +11,5 @@
     <string name="name">Имя</string>
     <string name="reg">Регистрация</string>
     <string name="back_button_desc">Назад</string>
+    <string name="rank_icon_desc">Иконка места в рейтинге</string>
 </resources>

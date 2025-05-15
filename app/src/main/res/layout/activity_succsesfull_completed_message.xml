@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_succsesfull_completed"
+    android:padding="32dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="184dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/completed_small_background"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Вы прошли уровень! Молодец!"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/exit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="44dp"
+            android:background="@drawable/rounded_dark_button"
+            android:text="Выйти в главное меню"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+</RelativeLayout>

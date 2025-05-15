@@ -21,13 +21,13 @@
     <!-- Заголовок -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/small_statisctic_background"
-        android:padding="12dp"
+        android:layout_height="566dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:elevation="4dp">
+        android:background="@drawable/small_statisctic_background"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="12dp">
 
         <!-- Заголовок "Рейтинг" -->
         <TextView
@@ -50,18 +50,18 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Дата обновления:"
-            android:textStyle="bold"
+            android:layout_marginTop="8dp"
             android:background="@drawable/bg_pink_button"
-            android:textColor="@android:color/white"
             android:padding="10dp"
-            android:layout_marginTop="8dp"/>
+            android:text="Дата обновления:"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
         <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rating_list"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="391dp"
             android:clipToPadding="false"
             android:padding="4dp" />
     </LinearLayout>

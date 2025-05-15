@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Задний фон -->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/class_bg" />
+
+    <!-- Облако с текстом -->
+
+
+    <!-- Кот-преподаватель -->
+
+    <TextView
+        android:id="@+id/speechBubble"
+        android:layout_width="256dp"
+        android:layout_height="114dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16"
+        android:layout_marginTop="65dp"
+        android:background="@drawable/speech_bubble"
+        android:padding="12dp"
+        android:text="Информация о преподавателе и о предмете"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/teacherCat"
+        android:layout_width="265dp"
+        android:layout_height="262dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:contentDescription="Учитель-кот"
+        android:src="@drawable/cat_teacher" />
+
+    <!-- Кнопка Далее -->
+
+    <!-- Кнопка Главное меню -->
+
+    <Button
+        android:id="@+id/buttonNext"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/teacherCat"
+        android:layout_marginTop="70dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_dark_button"
+        android:text="Далее"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/exit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/teacherCat"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="140dp"
+        android:background="@drawable/rounded_dark_button"
+        android:text="Выйти в главное меню"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>

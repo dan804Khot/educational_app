@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_blur_classroom">
+
+    <!-- Рыбья кость -->
+    <ImageView
+        android:id="@+id/fish_icon"
+        android:layout_width="291dp"
+        android:layout_height="164dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/fish_bones" />
+
+    <!-- Теоретическая информация -->
+    <TextView
+        android:id="@+id/theory_block"
+        android:layout_width="325dp"
+        android:layout_height="125dp"
+        android:layout_below="@id/fish_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_white_border_purple"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Теоретическая информация"
+        android:textSize="18sp" />
+
+    <!-- Заголовок вопроса -->
+    <TextView
+        android:id="@+id/question_label"
+        android:layout_width="319dp"
+        android:layout_height="107dp"
+        android:layout_below="@id/theory_block"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_white"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="6dp"
+        android:text="Вопрос или задание"
+        android:textStyle="bold" />
+
+    <!-- Окошко для ответа -->
+    <TextView
+        android:id="@+id/answer_box"
+        android:layout_width="322dp"
+        android:layout_height="113dp"
+        android:layout_below="@id/question_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_white_border_purple"
+        android:padding="16dp"
+        android:text="Окошко для\nответа"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/task_number"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@id/answer_box"
+        android:layout_alignStart="@id/answer_box"
+        android:layout_marginTop="-20dp"
+        android:layout_marginStart="-20dp"
+        android:background="@drawable/circle_purple"
+        android:gravity="center"
+        android:text="2/2"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+    <!-- Кнопки -->
+    <LinearLayout
+        android:id="@+id/button_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/answer_box"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/check_question"
+            style="@drawable/rounded_dark_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Проверить задание" />
+
+        <Button
+            android:id="@+id/next_question"
+            style="@drawable/rounded_dark_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Следующее задание"/>
+    </LinearLayout>
+
+
+    <!-- Главная кнопка -->
+    <Button
+        android:id="@+id/main_menu_button"
+        style="@drawable/rounded_dark_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_row"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="Главное меню" />
+
+</RelativeLayout>

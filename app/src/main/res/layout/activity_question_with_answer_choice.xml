@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_blur_classroom">
+
+    <!-- Рыбья кость -->
+    <ImageView
+        android:id="@+id/fish_icon"
+        android:layout_width="291dp"
+        android:layout_height="164dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/fish_bones" />
+
+    <!-- Теоретическая информация -->
+    <TextView
+        android:id="@+id/theory_block"
+        android:layout_width="343dp"
+        android:layout_height="142dp"
+        android:layout_below="@id/fish_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_white_border_purple"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Теоретическая информация"
+        android:textSize="18sp" />
+
+    <!-- Заголовок вопроса -->
+    <TextView
+        android:id="@+id/question_label"
+        android:layout_width="339dp"
+        android:layout_height="105dp"
+        android:layout_below="@id/theory_block"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_white"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="6dp"
+        android:text="Вопрос или задание"
+        android:textStyle="bold" />
+
+
+    <!-- Контейнер с ответами -->
+    <RelativeLayout
+        android:id="@+id/answer_container"
+        android:layout_width="384dp"
+        android:layout_height="190dp"
+        android:layout_below="@id/question_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:id="@+id/answer_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_gray"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ListView
+                android:id="@+id/answer_list"
+                android:layout_width="match_parent"
+                android:layout_height="171dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="12dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/task_number"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignStart="@id/answer_list_container"
+            android:layout_alignTop="@id/answer_list_container"
+            android:layout_marginStart="-4dp"
+            android:layout_marginTop="-4dp"
+            android:background="@drawable/circle_purple"
+            android:gravity="center"
+            android:text="2/2"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- Кнопки -->
+    <LinearLayout
+        android:id="@+id/button_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/answer_container"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/check_question"
+            style="@drawable/rounded_dark_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="Проверить задание" />
+
+        <Button
+            android:id="@+id/next_question"
+            style="@drawable/rounded_dark_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Следующее задание" />
+    </LinearLayout>
+
+    <!-- Главная кнопка -->
+    <Button
+        android:id="@+id/main_menu_button"
+        style="@drawable/rounded_dark_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_row"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Главное меню" />
+</RelativeLayout>

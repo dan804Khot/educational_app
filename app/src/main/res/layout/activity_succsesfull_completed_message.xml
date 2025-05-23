@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_succsesfull_completed"
+    android:background="@drawable/bg_blur_classroom_with_cat"
     android:padding="32dp">
 
     <LinearLayout

@@ -46,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
         //Ограничения на длину
         firstName.filters = arrayOf(InputFilter.LengthFilter(20))
         lastName.filters = arrayOf(InputFilter.LengthFilter(20))
-        middleName.filters = arrayOf(InputFilter.LengthFilter(30)
+        middleName.filters = arrayOf(InputFilter.LengthFilter(30))
         
         // Обработчик кнопки регистрации
         registerButton.setOnClickListener {

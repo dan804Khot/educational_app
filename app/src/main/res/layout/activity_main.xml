@@ -57,5 +57,15 @@
             android:radius="24dp"
             android:text="Зарегистрироваться"
             android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/password_reset_button"
+            android:layout_width="229dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_dark_button"
+            android:radius="24dp"
+            android:text="Забыли пароль?"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </RelativeLayout>

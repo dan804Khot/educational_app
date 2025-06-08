@@ -23,6 +23,14 @@ class LevelMapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.level_map_activity)
 
+        // Инициализация при первом запуске
+        if (prefs2.getBoolean("is_first_run", true)) {
+            prefs2.edit {
+                putBoolean("is_first_run", false)
+                putBoolean("fish_recovered", true)
+            }
+        }
+
         // Загружаем текущий прогресс
         val currentLevel = prefs.getInt("current_level", 1)
         updateProgress(currentLevel)
@@ -237,13 +245,15 @@ class LevelMapActivity : AppCompatActivity() {
 
     }
 
-    override fun onResume() {
+    override fun onResume(){
         super.onResume()
-        if (!prefs2.getBoolean("fish_recovered", false)) {
+        if (!prefs2.getBoolean("fish_recovered", false) && !prefs2.getBoolean("is_first_run", true)) {
             startActivity(Intent(this, RecoverFishActivity::class.java))
             finish()
         }
+
     }
+
 
     private fun updateProgress(currentLevel: Int) {
         val progressText = "$currentLevel/5"

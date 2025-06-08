@@ -3,8 +3,10 @@ package com.example.educationapp
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -14,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 
 class MainActivity : AppCompatActivity() {
     // Инициализация Firebase Auth
@@ -62,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
+
                             is FirebaseAuthInvalidCredentialsException -> {
                                 Toast.makeText(
                                     this,
@@ -69,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
+
                             else -> {
                                 Toast.makeText(
                                     this,
@@ -88,62 +93,35 @@ class MainActivity : AppCompatActivity() {
 
         reset_button.setOnClickListener {
             val emailText = email.text.toString().trim()
-
             if (emailText.isEmpty()) {
-                Toast.makeText(this, "Введите email для сброса пароля", Toast.LENGTH_SHORT).show()
+                showError("Введите email")
                 return@setOnClickListener
             }
 
-            // Сначала проверяем в Firebase Auth
-            auth.fetchSignInMethodsForEmail(emailText)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val signInMethods = task.result?.signInMethods
-                        if (!signInMethods.isNullOrEmpty()) {
-                            // Пользователь есть в Auth - отправляем письмо
-                            sendResetEmail(emailText)
-                        } else {
-                            // Пользователя нет в Auth, но проверяем в Firestore
-                            checkInFirestore(emailText)
-                        }
-                    } else {
-                        showError("Ошибка проверки email: ${task.exception?.message}")
-                    }
-                }
-        }
-    }
-    private fun sendResetEmail(email: String) {
-        auth.sendPasswordResetEmail(email)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(
-                        this,
-                        "Письмо отправлено. Проверьте почту $email",
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    showError("Не удалось отправить письмо: ${task.exception?.message}")
-                }
+            // Проверяем, совпадает ли email с сохраненным в SharedPreferences
+            val savedEmail = sharedPref.getString("user_email", "")
+            if (savedEmail != null && savedEmail.isNotEmpty() && savedEmail != emailText) {
+                Toast.makeText(
+                    this,
+                    "Пожалуйста, используйте email, который был указан при регистрации: $savedEmail",
+                    Toast.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
             }
-    }
 
-    private fun checkInFirestore(email: String) {
-        db.collection("users").document(email).get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    showError("Аккаунт существует, но требуется верификация email")
-                } else {
-                    showError("Пользователь с email $email не найден")
-                }
+            auth.sendPasswordResetEmail(emailText)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Письмо отправлено", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { e ->
+                        showError("Ошибка: ${e.message}")
+                    }
             }
-            .addOnFailureListener { exception ->
-                showError("Ошибка проверки пользователя: ${exception.message}")
-                exception.printStackTrace()
-                Log.d("CHECK", "${exception.message}")
-            }
-    }
+
+        }
 
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
+
 }

@@ -245,6 +245,7 @@ class LevelMapActivity : AppCompatActivity() {
 
     }
 
+    //Провеерка: нужно ли открывать восстановление рыбки
     override fun onResume(){
         super.onResume()
         if (!prefs2.getBoolean("fish_recovered", false) && !prefs2.getBoolean("is_first_run", true)) {

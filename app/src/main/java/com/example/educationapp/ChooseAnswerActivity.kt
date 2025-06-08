@@ -157,6 +157,7 @@ class ChooseAnswerActivity : AppCompatActivity() {
                 if (selectedAnswer == question.correctAnswer) {
                     correctAnswersCount++
                     updateFishProgress()
+                    nextQuestion()
                 } else {
                     wrongAnswersCount++
                     if (wrongAnswersCount == 2) {
@@ -200,6 +201,7 @@ class ChooseAnswerActivity : AppCompatActivity() {
             if (userAnswer == question.correctAnswer) {
                 correctAnswersCount++
                 updateFishProgress()
+                nextQuestion()
                 Toast.makeText(this, "Правильно!", Toast.LENGTH_SHORT).show()
             } else {
                 wrongAnswersCount++

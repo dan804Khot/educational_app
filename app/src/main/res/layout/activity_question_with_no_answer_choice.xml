@@ -43,7 +43,7 @@
         android:textStyle="bold" />
 
     <!-- Окошко для ответа -->
-    <TextView
+    <EditText
         android:id="@+id/answer_box"
         android:layout_width="322dp"
         android:layout_height="113dp"
@@ -85,21 +85,23 @@
         android:weightSum="2">
 
         <Button
-            android:id="@+id/check_question"
-            style="@drawable/rounded_dark_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:text="Проверить задание" />
-
-        <Button
             android:id="@+id/next_question"
             style="@drawable/rounded_dark_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="68dp"
+            android:layout_marginTop="-15dp"
             android:layout_weight="1"
-            android:text="Следующее задание"/>
+            android:text="Следующее задание" />
+
+        <Button
+            android:id="@+id/check_question"
+            style="@drawable/rounded_dark_button"
+            android:layout_width="0dp"
+            android:layout_height="67dp"
+            android:layout_marginTop="-15dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="Проверить задание" />
     </LinearLayout>
 
 
@@ -111,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/button_row"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="-16dp"
         android:text="Главное меню" />
 
 </RelativeLayout>

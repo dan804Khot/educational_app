@@ -1,9 +1,14 @@
 package com.example.educationapp
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.os.Bundle
+import android.text.InputFilter
+import android.util.Log
+import android.util.Patterns
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -89,31 +94,59 @@ class RegisterActivity : AppCompatActivity() {
             allConditions = false
         }
         if (allConditions) {
-            Toast.makeText(context, "Регистрация успешна", Toast.LENGTH_SHORT).show()
             val emailText = email.text.toString().trim()
             val firstNameText = firstName.text.toString().trim()
             val lastNameText = lastName.text.toString().trim()
             val middleNameText = middleName.text.toString().trim()
             val groupText = group.text.toString().trim()
             val passwordText = password.text.toString().trim()
+            checkUserExists(emailText) { exists ->
+                if (exists) {
+                    Toast.makeText(
+                        context,
+                        "Пользователь с таким email уже существует",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    // Регистрация в Firebase
+                    Toast.makeText(context, "Регистрация успешна", Toast.LENGTH_SHORT).show()
+                    registerUser(
+                        emailText,
+                        passwordText
+                    )
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
 
-            // Регистрация в Firebase
-            registerUser(
-                emailText,
-                passwordText
-            )
         }
     }
 
-    private fun registerUser(
-        email: String,
-        password: String) {
+    private fun registerUser(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Успешная регистрация
                     val user = auth.currentUser
+                    // Сохраняем данные пользователя в Firestore
+                    saveUserDataToFirestore(
+                        email,
+                        firstName.text.toString().trim(),
+                        lastName.text.toString().trim(),
+                        middleName.text.toString().trim(),
+                        group.text.toString().trim()
+                    )
+
+                    // Сохраняем все данные в SharedPreferences
+                    saveUserDataToSharedPref(
+                        email = email,
+                        firstName = firstName.text.toString().trim(),
+                        lastName = lastName.text.toString().trim(),
+                        middleName = middleName.text.toString().trim(),
+                        group = group.text.toString().trim()
+                    )
+
                     Toast.makeText(this, "Регистрация успешна!", Toast.LENGTH_SHORT).show()
+                    finish()
                 } else {
                     Toast.makeText(
                         this,
@@ -122,6 +155,55 @@ class RegisterActivity : AppCompatActivity() {
                     ).show()
                 }
             }
+    }
+
+    private fun saveUserDataToFirestore(
+        email: String,
+        firstName: String,
+        lastName: String,
+        middleName: String,
+        group: String
+    ) {
+        val user = hashMapOf(
+            "email" to email,
+            "firstName" to firstName,
+            "lastName" to lastName,
+            "middleName" to middleName,
+            "group" to group,
+            "about" to ""
+        )
+
+        db.collection("users").document(email)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d("RegisterActivity", "Данные пользователя сохранены")
+            }
+            .addOnFailureListener { e ->
+                Log.w("RegisterActivity", "Ошибка сохранения данных", e)
+            }
+    }
+
+    private fun saveUserDataToSharedPref(
+        email: String,
+        firstName: String,
+        lastName: String,
+        middleName: String,
+        group: String
+    ) {
+        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("user_email", email)
+            putString("first_name", firstName)
+            putString("last_name", lastName)
+            putString("middle_name", middleName)
+            putString("group", group)
+            // Инициализируем статистику
+            putInt("levels_completed", 0)
+            putInt("current_level", 1)
+            putString("current_world", "Программирование на C#")
+            putInt("rank", 0)
+            apply()
+        }
     }
 
     //Проверка на формат группы
@@ -164,5 +246,16 @@ class RegisterActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    private fun checkUserExists(email: String, callback: (Boolean) -> Unit) {
+        db.collection("users").document(email)
+            .get()
+            .addOnSuccessListener { document ->
+                callback(document.exists())
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
     }
 }

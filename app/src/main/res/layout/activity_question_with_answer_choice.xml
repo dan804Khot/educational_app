@@ -99,7 +99,8 @@
             android:id="@+id/check_question"
             style="@drawable/rounded_dark_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="39dp"
+            android:layout_marginTop="-10dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:text="Проверить задание" />
@@ -108,7 +109,8 @@
             android:id="@+id/next_question"
             style="@drawable/rounded_dark_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="-10dp"
             android:layout_weight="1"
             android:text="Следующее задание" />
     </LinearLayout>
@@ -120,7 +122,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/button_row"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="-67dp"
         android:text="Главное меню" />
 </RelativeLayout>

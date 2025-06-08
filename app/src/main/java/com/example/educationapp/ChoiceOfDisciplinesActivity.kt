@@ -1,5 +1,6 @@
 package com.example.educationapp
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -33,7 +34,7 @@ class ChoiceOfDisciplinesActivity : AppCompatActivity() {
         }
 
         // список дисциплин
-        val disciplines = arrayOf("1", "2", "3", "4", "5")
+        val disciplines = arrayOf("Программирование C#", "Программирование Python", "Программирование Kotlin")
 
         // адаптер для Spinner
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, disciplines)
@@ -43,7 +44,7 @@ class ChoiceOfDisciplinesActivity : AppCompatActivity() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedDiscipline = parent.getItemAtPosition(position).toString()
-                Toast.makeText(this@ChoiceOfDisciplinesActivity, "Вы выбрали: $selectedDiscipline", Toast.LENGTH_SHORT).show()
+                titleText.text = selectedDiscipline
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -51,7 +52,14 @@ class ChoiceOfDisciplinesActivity : AppCompatActivity() {
 
         // кнопка "Начать"
         startButton.setOnClickListener {
-            Toast.makeText(this, "Вы начали изучение!", Toast.LENGTH_SHORT).show()
+            if (titleText.text != "Программирование C#")
+            {
+                Toast.makeText(this, "Упс...Данной дисциплины пока нет", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                val intent = Intent(this, LevelMapActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 }

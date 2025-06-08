@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 
 
-class ChooseAnswerActivity : AppCompatActivity() {
+class ChooseAnswerActivity2 : AppCompatActivity() {
 
     private lateinit var answerListView: ListView
     private lateinit var questions: List<Question>
@@ -47,48 +47,55 @@ class ChooseAnswerActivity : AppCompatActivity() {
         questions = listOf(
             Question(
                 1,
-                "Что делает код?\nint[] scores = {85, 90, 78, 92};\nConsole.WriteLine(scores[0]);",
+                "Дана часть кода. Что он должен вывести?\nКод:\nstring s = \"Hello\".Substring(1, 3);\nConsole.WriteLine(s);",
                 QuestionType.WITH_ANSWERS,
                 listOf(
-                    "Выводит все элементы",
-                    "Выводит элемент с индексом 0",
-                    "Выводит элемент с индексом 1",
-                    "Выводит ошибку"
+                    "ell",
+                    "Hel",
+                    "llo"
                 ),
-                "Выводит элемент с индексом 0",
-                "В C# массивы индексируются с 0. scores[0] обращается к первому элементу массива."
+                "ell",
+                "Метод Substring(1,3) возвращает подстроку длиной 3 символа, начиная с индекса 1."
             ),
             Question(
                 2,
-                "Для создания константы в C# используется ключевое слово ________",
+                "Какой метод удаляет пробелы в начале и конце строки?",
                 QuestionType.WITH_ANSWERS,
-                listOf("var", "let", "const", "static"),
-                "const",
-                "Ключевое слово const используется для объявления констант в C#."
+                listOf(
+                    "Trim",
+                    "RemoveSpaces",
+                    "Strip"
+                ),
+                "Trim",
+                "Метод Trim() удаляет все начальные и конечные пробельные символы из строки."
             ),
             Question(
                 3,
-                "Найдите и исправьте ошибку.\nconst double PI;\nPI = 3.14;\nConsole.WriteLine(PI);",
-                QuestionType.WITHOUT_ANSWERS,
-                null,
-                "const double PI=3.14;\nConsole.WriteLine(PI);",
-                "Константы в C# должны быть инициализированы при объявлении."
+                "Какой код удаляет все пробелы из строки str?\nstring str = \"Hello, World!\";\nstring noSpaces = ?",
+                QuestionType.WITH_ANSWERS,
+                listOf(
+                    "str.TrimAll()",
+                    "str.Replace(\" \", \"\")",
+                    "str.RemoveSpaces()"
+                ),
+                "str.Replace(\" \", \"\")",
+                "Метод Replace() заменяет все вхождения указанной подстроки на другую подстроку."
             ),
             Question(
                 4,
-                "При объявлении массива, размер массива указывается внутри __________.",
-                QuestionType.WITH_ANSWERS,
-                listOf("{ }", "( )", "[ ]", "< >"),
-                "[ ]",
-                "В C# размер массива указывается в квадратных скобках."
+                "Напишите код, который выводит длину строки str.\nПеременные: string str = \"Hello\";",
+                QuestionType.WITHOUT_ANSWERS,
+                null,
+                "Console.WriteLine(str.Length);",
+                "Свойство Length возвращает количество символов в строке."
             ),
             Question(
                 5,
-                "Создайте переменную num со значением 20. Добавьте к ней число 5. Используйте сокращенную запись.",
+                "Проверьте, содержит ли строка str подстроку \"abc\".\nПеременные: string str = \"abcdef\";",
                 QuestionType.WITHOUT_ANSWERS,
                 null,
-                "int num = 20;\nnum += 5;",
-                "Сокращенные операторы присваивания (+=, -=, *=, /=)."
+                "Console.WriteLine(str.Contains(\"abc\"));",
+                "Метод Contains() возвращает true, если строка содержит указанную подстроку."
             )
         )
     }
@@ -325,15 +332,5 @@ class ChooseAnswerActivity : AppCompatActivity() {
     }
 
 }
-data class Question(
-    val id: Int,
-    val text: String,
-    val type: QuestionType,
-    val answers: List<String>? = null,
-    val correctAnswer: String,
-    val theory: String = ""
-)
 
-enum class QuestionType {
-    WITH_ANSWERS, WITHOUT_ANSWERS
-}
+

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "964921080493",
-    "project_id": "appgame-afeff",
-    "storage_bucket": "appgame-afeff.firebasestorage.app"
+    "project_number": "519150886870",
+    "project_id": "educationapp-471cf",
+    "storage_bucket": "educationapp-471cf.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:964921080493:android:00ed85e7c7c259f3996424",
+        "mobilesdk_app_id": "1:519150886870:android:00211656211622fdc68e77",
         "android_client_info": {
           "package_name": "com.example.educationapp"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAmKid9LMPndaTxR8h1nlE2RJIkpohPV1U"
+          "current_key": "AIzaSyAV8EgtIL4N3Rsh0nhtbnj3874w9xI_i00"
         }
       ],
       "services": {

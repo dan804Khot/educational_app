@@ -1,6 +1,8 @@
 package com.example.educationapp
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
@@ -11,7 +13,7 @@ class UserStatisticsActivity : AppCompatActivity() {
 
     private lateinit var backButton: ImageButton
     private lateinit var aboutMeButton: Button
-
+    private lateinit var prefs: SharedPreferences
     // Пример полей (будешь заменять данными пользователя из базы или SharedPreferences)
     private lateinit var userIdText: TextView
     private lateinit var userNameText: TextView
@@ -24,7 +26,7 @@ class UserStatisticsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_statistics)
-
+        prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         // Назад
         backButton = findViewById(R.id.back_button)
         backButton.setOnClickListener {
@@ -34,8 +36,7 @@ class UserStatisticsActivity : AppCompatActivity() {
         // Кнопка "Обо мне"
         aboutMeButton = findViewById(R.id.about_me_button)
         aboutMeButton.setOnClickListener {
-            // здесь можно запускать другую активность с подробной инфой
-            //val intent = Intent(this, AboutMeActivity::class.java)
+            val intent = Intent(this, AboutMeActivity::class.java)
             startActivity(intent)
         }
 
@@ -48,13 +49,35 @@ class UserStatisticsActivity : AppCompatActivity() {
         currentWorldText = findViewById(R.id.text_current_world)
         rankText = findViewById(R.id.text_rank)
 
-        // Пример установки значений (здесь можно вставлять из intent или базы)
-        userIdText.text = "12345"
-        userNameText.text = "Иван Иванов"
-        groupText.text = "ПМИ-21"
-        levelsCompletedText.text = "10"
-        currentLevelText.text = "Уровень 5"
-        currentWorldText.text = "Мир 'Математика'"
-        rankText.text = "3 из 30"
+        // Загрузка данных пользователя
+        loadUserData()
     }
+
+    override fun onResume() {
+        super.onResume()
+        loadUserData()
+    }
+
+    private fun loadUserData() {
+        // Получаем данные из SharedPreferences
+        val lastName = prefs.getString("last_name", "") ?: ""
+        val firstName = prefs.getString("first_name", "") ?: ""
+        val middleName = prefs.getString("middle_name", "") ?: ""
+        val group = prefs.getString("group", "") ?: ""
+
+        // Статистика
+        val levelsCompleted = prefs.getInt("levels_completed", 0)
+        val currentLevel = prefs.getInt("current_level", 1)
+        val rankPosition = prefs.getInt("user_rank_position", 0)
+
+        // Устанавливаем значения в UI
+        userIdText.text = "5"
+        userNameText.text = "$lastName $firstName $middleName".trim()
+        groupText.text = group
+        levelsCompletedText.text = levelsCompleted.toString()
+        currentLevelText.text = "Уровень $currentLevel"
+        currentWorldText.text = "Программирование на C#"
+        rankText.text = "$rankPosition"
+    }
+
 }

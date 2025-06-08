@@ -114,6 +114,14 @@ class RegisterActivity : AppCompatActivity() {
                         emailText,
                         passwordText
                     )
+                    // Сохраняем все данные в SharedPreferences
+                    saveUserDataToSharedPref(
+                        email = email.text.toString().trim(),
+                        firstName = firstName.text.toString().trim(),
+                        lastName = lastName.text.toString().trim(),
+                        middleName = middleName.text.toString().trim(),
+                        group = group.text.toString().trim()
+                    )
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }

@@ -22,8 +22,10 @@ class UserStatisticsActivity : AppCompatActivity() {
     private lateinit var currentLevelText: TextView
     private lateinit var currentWorldText: TextView
     private lateinit var rankText: TextView
+    private val prefs2 by lazy { getSharedPreferences("LevelProgress", Context.MODE_PRIVATE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_statistics)
         prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
@@ -53,31 +55,26 @@ class UserStatisticsActivity : AppCompatActivity() {
         loadUserData()
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadUserData()
-    }
-
     private fun loadUserData() {
-        // Получаем данные из SharedPreferences
         val lastName = prefs.getString("last_name", "") ?: ""
         val firstName = prefs.getString("first_name", "") ?: ""
         val middleName = prefs.getString("middle_name", "") ?: ""
         val group = prefs.getString("group", "") ?: ""
-
-        // Статистика
-        val levelsCompleted = prefs.getInt("levels_completed", 0)
-        val currentLevel = prefs.getInt("current_level", 1)
+        val levelsCompleted = prefs2.getInt("levels_completed", 0)
+        val currentLevel = prefs2.getInt("current_level", 1)
         val rankPosition = prefs.getInt("user_rank_position", 0)
-
-        // Устанавливаем значения в UI
-        userIdText.text = "5"
+        userIdText.text = "ID: 5"
         userNameText.text = "$lastName $firstName $middleName".trim()
-        groupText.text = group
-        levelsCompletedText.text = levelsCompleted.toString()
+        groupText.text = "Группа: " + group
+        levelsCompletedText.text = "Завершенных уровней: " + levelsCompleted.toString()
         currentLevelText.text = "Уровень $currentLevel"
-        currentWorldText.text = "Программирование на C#"
-        rankText.text = "$rankPosition"
+        currentWorldText.text = "Текущий мир дисциплины: " + prefs.getString("current_world", "Программирование на C#")
+        rankText.text = "Место в рейтинге: " + rankPosition.toString()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadUserData()
     }
 
 }

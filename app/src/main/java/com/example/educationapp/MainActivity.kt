@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             if (savedEmail != null && savedEmail.isNotEmpty() && savedEmail != emailText) {
                 Toast.makeText(
                     this,
-                    "Пожалуйста, используйте email, который был указан при регистрации: $savedEmail",
+                    "Такого пользователя не существует",
                     Toast.LENGTH_LONG
                 ).show()
                 return@setOnClickListener

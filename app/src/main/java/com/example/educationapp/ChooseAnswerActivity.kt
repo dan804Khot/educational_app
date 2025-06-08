@@ -7,7 +7,6 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.SyncStateContract
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.*
@@ -15,16 +14,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 
-
 class ChooseAnswerActivity : AppCompatActivity() {
 
     private lateinit var answerListView: ListView
-    private lateinit var questions: List<Question>
+    private lateinit var questions: MutableList<Question>
     private var currentQuestionIndex = 0
     private var correctAnswersCount = 0
-    private var wrongAnswersCount = 0
+    private var secondAttemptsFailed = 0
     private val prefs by lazy { getSharedPreferences("LevelProgress", Context.MODE_PRIVATE) }
     private lateinit var fishIcon: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,13 +37,12 @@ class ChooseAnswerActivity : AppCompatActivity() {
         }
         val exitButton = findViewById<Button>(R.id.exit_button)
         exitButton.setOnClickListener {
-            finish();
+            finish()
         }
-
     }
 
     private fun initializeQuestions() {
-        questions = listOf(
+        questions = mutableListOf(
             Question(
                 1,
                 "Что делает код?\nint[] scores = {85, 90, 78, 92};\nConsole.WriteLine(scores[0]);",
@@ -56,7 +54,8 @@ class ChooseAnswerActivity : AppCompatActivity() {
                     "Выводит ошибку"
                 ),
                 "Выводит элемент с индексом 0",
-                "В C# массивы индексируются с 0. scores[0] обращается к первому элементу массива."
+                "В C# массивы индексируются с 0. scores[0] обращается к первому элементу массива.",
+                0 // Initialize attempts for each question
             ),
             Question(
                 2,
@@ -64,7 +63,8 @@ class ChooseAnswerActivity : AppCompatActivity() {
                 QuestionType.WITH_ANSWERS,
                 listOf("var", "let", "const", "static"),
                 "const",
-                "Ключевое слово const используется для объявления констант в C#."
+                "Ключевое слово const используется для объявления констант в C#.",
+                0
             ),
             Question(
                 3,
@@ -72,7 +72,8 @@ class ChooseAnswerActivity : AppCompatActivity() {
                 QuestionType.WITHOUT_ANSWERS,
                 null,
                 "const double PI=3.14;\nConsole.WriteLine(PI);",
-                "Константы в C# должны быть инициализированы при объявлении."
+                "Константы в C# должны быть инициализированы при объявлении.",
+                0
             ),
             Question(
                 4,
@@ -80,7 +81,8 @@ class ChooseAnswerActivity : AppCompatActivity() {
                 QuestionType.WITH_ANSWERS,
                 listOf("{ }", "( )", "[ ]", "< >"),
                 "[ ]",
-                "В C# размер массива указывается в квадратных скобках."
+                "В C# размер массива указывается в квадратных скобках.",
+                0
             ),
             Question(
                 5,
@@ -88,7 +90,8 @@ class ChooseAnswerActivity : AppCompatActivity() {
                 QuestionType.WITHOUT_ANSWERS,
                 null,
                 "int num = 20;\nnum += 5;",
-                "Сокращенные операторы присваивания (+=, -=, *=, /=)."
+                "Сокращенные операторы присваивания (+=, -=, *=, /=).",
+                0
             )
         )
     }
@@ -137,7 +140,7 @@ class ChooseAnswerActivity : AppCompatActivity() {
 
         questionLabel.text = question.text
         theoryBlock.text = question.theory
-        taskNumber.text = "${wrongAnswersCount}/2"
+        taskNumber.text = "${question.attempts}/2"
 
         answerListView = findViewById(R.id.answer_list)
         val checkButton = findViewById<Button>(R.id.check_question)
@@ -159,13 +162,19 @@ class ChooseAnswerActivity : AppCompatActivity() {
                     updateFishProgress()
                     nextQuestion()
                 } else {
-                    wrongAnswersCount++
-                    if (wrongAnswersCount == 2) {
-                        showAngryTeacher()
+                    question.attempts++
+                    taskNumber.text = "${question.attempts}/2"
+                    if (question.attempts >= 2) {
+                        secondAttemptsFailed++
+                        if (secondAttemptsFailed >= 3) {
+                            showAngryTeacher()
+                            return@setOnClickListener
+                        }
                     }
-                    else{
-                        nextQuestion()
+                    if (question.attempts < 2) {
+                        return@setOnClickListener
                     }
+                    nextQuestion()
                 }
             } else {
                 Toast.makeText(this, "Выберите ответ", Toast.LENGTH_SHORT).show()
@@ -173,8 +182,16 @@ class ChooseAnswerActivity : AppCompatActivity() {
         }
 
         nextButton.setOnClickListener {
-            wrongAnswersCount = 2 // Сразу исчерпываем попытки
-            showAngryTeacher()
+            question.attempts++
+            taskNumber.text = "${question.attempts}/2"
+            if (question.attempts >= 2) {
+                secondAttemptsFailed++
+                if (secondAttemptsFailed >= 3) {
+                    showAngryTeacher()
+                    return@setOnClickListener
+                }
+            }
+            nextQuestion()
         }
 
         findViewById<Button>(R.id.main_menu_button).setOnClickListener {
@@ -190,8 +207,8 @@ class ChooseAnswerActivity : AppCompatActivity() {
 
         questionLabel.text = question.text
         theoryBlock.text = question.theory
-        taskNumber.text = "${wrongAnswersCount}/2"
         answerBox.setText("")
+        taskNumber.text = "${question.attempts}/2"
 
         val checkButton = findViewById<Button>(R.id.check_question)
         val nextButton = findViewById<Button>(R.id.next_question)
@@ -204,27 +221,39 @@ class ChooseAnswerActivity : AppCompatActivity() {
                 nextQuestion()
                 Toast.makeText(this, "Правильно!", Toast.LENGTH_SHORT).show()
             } else {
-                wrongAnswersCount++
-                if (wrongAnswersCount == 2) {
-                    showAngryTeacher()
+                question.attempts++
+                taskNumber.text = "${question.attempts}/2"
+                if (question.attempts >= 2) {
+                    secondAttemptsFailed++
+                    if (secondAttemptsFailed >= 3) {
+                        showAngryTeacher()
+                        return@setOnClickListener
+                    }
                 }
-                else{
-                    nextQuestion()
+                if (question.attempts < 2) {
+                    return@setOnClickListener
                 }
+                nextQuestion()
             }
         }
 
-
         nextButton.setOnClickListener {
-            wrongAnswersCount = 2 // Сразу исчерпываем попытки
-            showAngryTeacher()
+            question.attempts++
+            taskNumber.text = "${question.attempts}/2"
+            if (question.attempts >= 2) {
+                secondAttemptsFailed++
+                if (secondAttemptsFailed >= 3) {
+                    showAngryTeacher()
+                    return@setOnClickListener
+                }
+            }
+            nextQuestion()
         }
 
         findViewById<Button>(R.id.main_menu_button).setOnClickListener {
             finish()
         }
     }
-
 
     private fun nextQuestion() {
         currentQuestionIndex++
@@ -236,8 +265,9 @@ class ChooseAnswerActivity : AppCompatActivity() {
     }
 
     private fun checkLevelCompletion() {
-        if (correctAnswersCount >= 3) {
-            val currentScore = prefs.getInt("user_score", 0)
+        if (correctAnswersCount >= 3 && secondAttemptsFailed < 3) {
+            val sharedPref = getSharedPreferences("LevelProgress", Context.MODE_PRIVATE)
+            val currentScore = sharedPref.getInt("user_score", 0)
             val pointsEarned = when (correctAnswersCount) {
                 3 -> 100
                 4 -> 150
@@ -245,11 +275,16 @@ class ChooseAnswerActivity : AppCompatActivity() {
                 else -> 50
             }
 
+            sharedPref.edit {
+                putInt("user_score", currentScore + pointsEarned)
+                apply()
+            }
+
             prefs.edit {
                 putBoolean("level1_completed", true)
                 putBoolean("level2_unlocked", true)
-                putInt("user_score", currentScore + pointsEarned)
                 putInt("levels_completed", prefs.getInt("levels_completed", 0) + 1)
+                apply()
             }
             showGoodEnd()
         } else {
@@ -264,20 +299,18 @@ class ChooseAnswerActivity : AppCompatActivity() {
     }
 
     private fun showAngryTeacher() {
-        // Создаем ImageView для кота-учителя
         val teacherImage = ImageView(this).apply {
             setImageResource(R.drawable.cat_teacher)
             layoutParams = FrameLayout.LayoutParams(
-                (resources.displayMetrics.widthPixels * 0.8).toInt(), // 80% от ширины экрана
-                (resources.displayMetrics.heightPixels * 0.4).toInt() // 40% от высоты экрана
+                (resources.displayMetrics.widthPixels * 0.8).toInt(),
+                (resources.displayMetrics.heightPixels * 0.4).toInt()
             ).apply {
                 gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
-                bottomMargin = (resources.displayMetrics.heightPixels * 0.05).toInt() // 5% от высоты экрана
+                bottomMargin = (resources.displayMetrics.heightPixels * 0.05).toInt()
             }
             scaleType = ImageView.ScaleType.FIT_CENTER
         }
 
-        // Создаем TextView для облачка с текстом
         val speechBubble = TextView(this).apply {
             text = "Я тобой недоволен!\nТы исчерпал все попытки!"
             setTextColor(Color.BLACK)
@@ -285,32 +318,29 @@ class ChooseAnswerActivity : AppCompatActivity() {
             gravity = Gravity.CENTER
             textSize = 20f
             typeface = Typeface.DEFAULT_BOLD
-            setPadding(48, 48, 48, 48) // Увеличиваем отступы
+            setPadding(48, 48, 48, 48)
             layoutParams = FrameLayout.LayoutParams(
-                (resources.displayMetrics.widthPixels * 0.8).toInt(), // 80% от ширины экрана
+                (resources.displayMetrics.widthPixels * 0.8).toInt(),
                 FrameLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
-                bottomMargin = (resources.displayMetrics.heightPixels * 0.45).toInt() // 45% от высоты экрана
+                bottomMargin = (resources.displayMetrics.heightPixels * 0.45).toInt()
             }
         }
 
-        // Создаем контейнер для оверлея
         val overlayLayout = FrameLayout(this).apply {
             layoutParams = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT
             )
-            setBackgroundColor(Color.argb(180, 0, 0, 0)) // Более темный полупрозрачный фон
+            setBackgroundColor(Color.argb(180, 0, 0, 0))
             addView(speechBubble)
             addView(teacherImage)
         }
 
-        // Добавляем оверлей к layout
         val rootView = findViewById<ViewGroup>(android.R.id.content)
         rootView.addView(overlayLayout)
 
-        // Через 2 секунды показываем плохую концовку
         Handler(Looper.getMainLooper()).postDelayed({
             rootView.removeView(overlayLayout)
             showBadEnd()
@@ -325,15 +355,16 @@ class ChooseAnswerActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-
 }
+
 data class Question(
     val id: Int,
     val text: String,
     val type: QuestionType,
     val answers: List<String>? = null,
     val correctAnswer: String,
-    val theory: String = ""
+    val theory: String = "",
+    var attempts: Int = 0
 )
 
 enum class QuestionType {

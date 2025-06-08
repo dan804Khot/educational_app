@@ -10,45 +10,47 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class RatingActivity : AppCompatActivity() {
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RatingAdapter
     private lateinit var back_button: ImageButton
-    private lateinit var prefs: SharedPreferences
+    private val prefs by lazy {
+        getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+    }
+    private val prefs2 by lazy {
+        getSharedPreferences("LevelProgress", Context.MODE_PRIVATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rating)
-        prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+
         recyclerView = findViewById(R.id.rating_list)
-        recyclerView.layoutManager = LinearLayoutManager(this)
         back_button = findViewById(R.id.back_button)
 
-        back_button.setOnClickListener {
-            finish()
-        }
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        back_button.setOnClickListener { finish() }
+
         loadRatingData()
     }
 
     private fun loadRatingData() {
         // Получаем данные текущего пользователя
-
         val lastName = prefs.getString("last_name", "") ?: ""
         val firstName = prefs.getString("first_name", "") ?: ""
+        val userScore = prefs2.getInt("user_score", 0)
 
         val currentUser = RatingItem(
-            username = "$lastName $firstName",  // Используем сохраненные имя и фамилию
-            score = prefs.getInt("user_score", 0),
+            username = "$lastName $firstName",
+            score = userScore,
             isCurrentUser = true
         )
 
-        // Создаем список пользователей
         val users = mutableListOf(
             RatingItem("Гусев Дмитрий", 1200),
             RatingItem("Чудакова Екатерина", 1100),
-            currentUser, // Добавляем текущего пользователя
             RatingItem("Иванов Иван", 30),
-            RatingItem("Петрова Анна", 20)
+            RatingItem("Петрова Анна", 20),
+            currentUser // Добавляем текущего пользователя
         )
 
         // Сортируем по убыванию очков
@@ -57,13 +59,14 @@ class RatingActivity : AppCompatActivity() {
         // Находим позицию текущего пользователя
         val userPosition = users.indexOfFirst { it.isCurrentUser } + 1
 
+        // Сохраняем позицию
         prefs.edit {
             putInt("user_rank_position", userPosition)
             apply()
         }
 
         adapter = RatingAdapter(users)
-        recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+
     }
 }

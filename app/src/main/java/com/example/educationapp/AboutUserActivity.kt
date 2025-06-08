@@ -8,7 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.content.edit
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import java.io.IOException
 
@@ -46,6 +48,7 @@ class AboutMeActivity : Activity() {
 
         saveButton.setOnClickListener {
             saveAboutText()
+            Toast.makeText(this, "Сохранено", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -59,56 +62,54 @@ class AboutMeActivity : Activity() {
         db.collection("users").document(email)
             .get()
             .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    val fullName = "${document.getString("lastName") ?: ""} " +
-                            "${document.getString("firstName") ?: ""} " +
-                            "${document.getString("middleName") ?: ""}"
-
-                    fullNameEditText.setText(fullName.trim())
-                    groupEditText.setText(document.getString("group") ?: "")
-                    aboutTextEditText.setText(document.getString("about") ?: "")
+                if (document.exists()) {
+                    updateUIFromDocument(document)
                 } else {
-                    Toast.makeText(this, "Данные пользователя не найдены", Toast.LENGTH_SHORT)
-                        .show()
-                    loadFromSharedPreferences()
+                    loadFromSharedPref()
                 }
             }
             .addOnFailureListener { e ->
                 if (e is IOException) {
-                    Toast.makeText(this, "Проблемы с интернет-соединением", Toast.LENGTH_SHORT)
-                        .show()
-                    loadFromSharedPreferences()
-                } else {
-                    Toast.makeText(this, "Ошибка: ${e.message}", Toast.LENGTH_SHORT).show()
-                    loadFromSharedPreferences()
+                    Toast.makeText(this, "Проблемы с интернет-соединением", Toast.LENGTH_SHORT).show()
                 }
+                loadFromSharedPref()
             }
+    }
+    private fun updateUIFromDocument(document: DocumentSnapshot) {
+        val fullName = "${document.getString("lastName") ?: ""} " +
+                "${document.getString("firstName") ?: ""} " +
+                "${document.getString("middleName") ?: ""}"
+
+        fullNameEditText.setText(fullName.trim())
+        groupEditText.setText(document.getString("group") ?: "")
+        aboutTextEditText.setText(document.getString("about") ?: "")
+
+        // Update SharedPreferences
+        sharedPref.edit {
+            putString("last_name", document.getString("lastName"))
+            putString("first_name", document.getString("firstName"))
+            putString("middle_name", document.getString("middleName"))
+            putString("group", document.getString("group"))
+            putString("about_text", document.getString("about"))
+            apply()
+        }
+    }
+
+    private fun loadFromSharedPref() {
+        val lastName = sharedPref.getString("last_name", "") ?: ""
+        val firstName = sharedPref.getString("first_name", "") ?: ""
+        val middleName = sharedPref.getString("middle_name", "") ?: ""
+        val fullName = "$lastName $firstName $middleName".trim()
+
+        fullNameEditText.setText(fullName)
+        groupEditText.setText(sharedPref.getString("group", ""))
+        aboutTextEditText.setText(sharedPref.getString("about_text", ""))
     }
 
         private fun saveAboutText() {
-            val email = auth.currentUser?.email ?: run {
-                Toast.makeText(this, "Пользователь не авторизован", Toast.LENGTH_SHORT).show()
-                return
-            }
-
             val aboutText = aboutTextEditText.text.toString().trim()
-
-            db.collection("users").document(email)
-                .update("about", aboutText)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Данные успешно сохранены", Toast.LENGTH_SHORT).show()
-                    sharedPref.edit().putString("about_text", aboutText).apply()
-                }
-                .addOnFailureListener { e ->
-                    if (e is IOException) {
-                        Toast.makeText(this, "Проблемы с интернет-соединением", Toast.LENGTH_SHORT)
-                            .show()
-                        loadFromSharedPreferences()
-                    } else {
-                        Toast.makeText(this, "Ошибка: ${e.message}", Toast.LENGTH_SHORT).show()
-                        loadFromSharedPreferences()
-                    }
-                }
+            sharedPref.edit { putString("about_text", aboutText).apply() }
+            loadFromSharedPreferences()
         }
     override fun onResume() {
         super.onResume()

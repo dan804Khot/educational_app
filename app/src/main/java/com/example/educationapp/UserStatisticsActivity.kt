@@ -67,7 +67,7 @@ class UserStatisticsActivity : AppCompatActivity() {
         userNameText.text = "$lastName $firstName $middleName".trim()
         groupText.text = "Группа: " + group
         levelsCompletedText.text = "Завершенных уровней: " + levelsCompleted.toString()
-        currentLevelText.text = "Уровень $currentLevel"
+        currentLevelText.text = "Текущий уровень ${currentLevel}"
         currentWorldText.text = "Текущий мир дисциплины: " + prefs.getString("current_world", "Программирование на C#")
         rankText.text = "Место в рейтинге: " + rankPosition.toString()
     }

@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
@@ -34,6 +35,7 @@ class LevelMapActivity : AppCompatActivity() {
         // Загружаем текущий прогресс
         val currentLevel = prefs.getInt("current_level", 1)
         updateProgress(currentLevel)
+        updateCatsPosition(currentLevel)
 
         // Проверяем, нужно ли показывать экран завершения
         if (allLevelsCompleted() && !prefs.getBoolean("course_completed_shown", false)) {
@@ -127,7 +129,6 @@ class LevelMapActivity : AppCompatActivity() {
                     }
                 } else {
                     setContentView(R.layout.activity_level_not_completed)
-                    updateProgress(3)
                     findViewById<TextView>(R.id.levelTitle).text = "Уровень 3"
                     findViewById<ImageButton>(R.id.closeButton).setOnClickListener {
                         finish()
@@ -165,7 +166,6 @@ class LevelMapActivity : AppCompatActivity() {
                     }
                 } else {
                     setContentView(R.layout.activity_level_not_completed)
-                    updateProgress(3)
                     findViewById<TextView>(R.id.levelTitle).text = "Уровень 4"
                     findViewById<ImageButton>(R.id.closeButton).setOnClickListener {
                         finish()
@@ -203,7 +203,6 @@ class LevelMapActivity : AppCompatActivity() {
                     }
                 } else {
                     setContentView(R.layout.activity_level_not_completed)
-                    updateProgress(3)
                     findViewById<TextView>(R.id.levelTitle).text = "Уровень 5"
                     findViewById<ImageButton>(R.id.closeButton).setOnClickListener {
                         finish()
@@ -254,7 +253,87 @@ class LevelMapActivity : AppCompatActivity() {
         }
 
     }
+    private fun updateCatsPosition(currentLevel: Int) {
+        val cat1 = findViewById<ImageView>(R.id.cat1)
+        val cat2 = findViewById<ImageView>(R.id.cat2)
 
+        val paramsCat1 = cat1.layoutParams as RelativeLayout.LayoutParams
+        val paramsCat2 = cat2.layoutParams as RelativeLayout.LayoutParams
+
+        // Удаляем все существующие правила позиционирования
+        paramsCat1.removeRule(RelativeLayout.BELOW)
+        paramsCat1.removeRule(RelativeLayout.ALIGN_END)
+        paramsCat1.removeRule(RelativeLayout.ALIGN_START)
+        paramsCat2.removeRule(RelativeLayout.BELOW)
+        paramsCat2.removeRule(RelativeLayout.ALIGN_END)
+        paramsCat2.removeRule(RelativeLayout.ALIGN_START)
+
+        when (currentLevel) {
+            1 -> {
+                // Позиционируем котиков правее уровня 1
+                paramsCat1.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.level1)
+                paramsCat1.addRule(RelativeLayout.END_OF, R.id.level1)
+                paramsCat1.marginStart = 20
+                paramsCat1.bottomMargin = -20
+
+                paramsCat2.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.level1)
+                paramsCat2.addRule(RelativeLayout.END_OF, R.id.level1)
+                paramsCat2.marginStart = 40
+                paramsCat2.bottomMargin = -40
+            }
+            2 -> {
+                // Позиционируем котиков правее уровня 2
+                paramsCat1.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.level2)
+                paramsCat1.addRule(RelativeLayout.END_OF, R.id.level2)
+                paramsCat1.marginStart = 20
+                paramsCat1.bottomMargin = -20
+
+                paramsCat2.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.level2)
+                paramsCat2.addRule(RelativeLayout.END_OF, R.id.level2)
+                paramsCat2.marginStart = 40
+                paramsCat2.bottomMargin = -40
+            }
+            3 -> {
+                // Позиционируем котиков правее уровня 3
+                paramsCat1.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.level3)
+                paramsCat1.addRule(RelativeLayout.END_OF, R.id.level3)
+                paramsCat1.marginStart = 20
+                paramsCat1.bottomMargin = -20
+
+                paramsCat2.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.level3)
+                paramsCat2.addRule(RelativeLayout.END_OF, R.id.level3)
+                paramsCat2.marginStart = 40
+                paramsCat2.bottomMargin = -40
+            }
+            4 -> {
+                // Позиционируем котиков правее уровня 4
+                paramsCat1.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.level4)
+                paramsCat1.addRule(RelativeLayout.END_OF, R.id.level4)
+                paramsCat1.marginStart = 20
+                paramsCat1.bottomMargin = -20
+
+                paramsCat2.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.level4)
+                paramsCat2.addRule(RelativeLayout.END_OF, R.id.level4)
+                paramsCat2.marginStart = 40
+                paramsCat2.bottomMargin = -40
+            }
+            5 -> {
+                // Позиционируем котиков правее уровня 5
+                paramsCat1.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.level5)
+                paramsCat1.addRule(RelativeLayout.END_OF, R.id.level5)
+                paramsCat1.marginStart = 20
+                paramsCat1.bottomMargin = -20
+
+                paramsCat2.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.level5)
+                paramsCat2.addRule(RelativeLayout.END_OF, R.id.level5)
+                paramsCat2.marginStart = 40
+                paramsCat2.bottomMargin = -40
+            }
+        }
+
+        cat1.layoutParams = paramsCat1
+        cat2.layoutParams = paramsCat2
+    }
 
     private fun updateProgress(currentLevel: Int) {
         val progressText = "$currentLevel/5"
@@ -280,27 +359,27 @@ class LevelMapActivity : AppCompatActivity() {
 
         // Update level 1
         levelBackgrounds[0].setImageResource(
-            if (level1Completed) R.drawable.green_level_check else R.drawable.green_level_check
+            if (level1Completed) R.drawable.green_level_check else R.drawable.red_check
         )
 
         // Update level 2
         levelBackgrounds[1].setImageResource(
-            if (level2Unlocked) R.drawable.green_level_check else R.drawable.red_check
+            if (level2Completed) R.drawable.green_level_check else R.drawable.red_check
         )
 
         // Update level 3
         levelBackgrounds[2].setImageResource(
-            if (level3Unlocked) R.drawable.green_level_check else R.drawable.red_check
+            if (level3Completed) R.drawable.green_level_check else R.drawable.red_check
         )
 
         // Update level 4
         levelBackgrounds[3].setImageResource(
-            if (level4Unlocked) R.drawable.green_level_check else R.drawable.red_check
+            if (level4Completed) R.drawable.green_level_check else R.drawable.red_check
         )
 
         // Update level 5
         levelBackgrounds[4].setImageResource(
-            if (level5Unlocked) R.drawable.green_level_check else R.drawable.red_check
+            if (level5Completed) R.drawable.green_level_check else R.drawable.red_check
         )
 
         if (level1Completed && level2Completed && level3Completed &&

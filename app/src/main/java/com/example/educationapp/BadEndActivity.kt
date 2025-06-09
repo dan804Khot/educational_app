@@ -62,7 +62,10 @@ class BadEndActivity : AppCompatActivity() {
                                 .start()
                         }
                         override fun onAnimationEnd(animation: Animator) {
-                            checkFishRecovery() // Проверяем, нужно ли показывать рыбку
+                            setContentView(R.layout.bad_end_message)
+                            findViewById<Button>(R.id.exit_button).setOnClickListener {
+                                checkFishRecovery() // Проверяем, нужно ли показывать рыбку
+                            }
                         }
                     })
                 }
@@ -79,14 +82,10 @@ class BadEndActivity : AppCompatActivity() {
     }
     private fun checkFishRecovery() {
         if (!prefs.getBoolean("fish_recovered", false)) {
+            // Если рыбка не восстановлена, переходим на экран восстановления
             startActivity(Intent(this, RecoverFishActivity::class.java))
-            finish()
-        } else {
-            setContentView(R.layout.bad_end_message)
-            findViewById<Button>(R.id.exit_button).setOnClickListener {
-                finish()
-            }
         }
+        finish()
     }
 
     override fun onDestroy() {

@@ -289,7 +289,8 @@ class ChooseAnswerActivity2 : AppCompatActivity() {
             prefs.edit {
                 putBoolean("level2_completed", true)
                 putBoolean("level3_unlocked", true)
-                putInt("levels_completed", prefs.getInt("levels_completed", 2))
+                putInt("current_level", 3)
+                putInt("levels_completed", prefs.getInt("levels_completed", 0) + 1)
                 apply()
             }
             showGoodEnd()

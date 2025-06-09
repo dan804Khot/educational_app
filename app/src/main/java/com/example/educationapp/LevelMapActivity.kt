@@ -98,6 +98,9 @@ class LevelMapActivity : AppCompatActivity() {
                     findViewById<Button>(R.id.completedButton).setOnClickListener {
                         startActivity(Intent(this, LevelMapActivity::class.java))
                     }
+                    prefs.edit {
+                        putInt("current_level", 3)
+                    }
                 } else {
                     setContentView(R.layout.activity_level_not_completed)
                     findViewById<TextView>(R.id.levelTitle).text = "Уровень 2"
@@ -117,10 +120,14 @@ class LevelMapActivity : AppCompatActivity() {
         // Level 3 button
         findViewById<FrameLayout>(R.id.level3).setOnClickListener {
             if (level3Unlocked) {
+                prefs.edit {
+                    putInt("current_level", 3)
+                }
                 if (level3Completed) {
                     setContentView(R.layout.activity_level_completed)
                     findViewById<TextView>(R.id.levelTitle).text = "Уровень 3"
                     findViewById<ImageButton>(R.id.closeButton).setOnClickListener {
+                        updateCatsPosition(3)
                         finish()
                         startActivity(Intent(this, LevelMapActivity::class.java))
                     }

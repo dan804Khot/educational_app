@@ -129,8 +129,9 @@ class ChooseAnswerActivity2 : AppCompatActivity() {
 
         val progress = when (correctAnswersCount) {
             0 -> R.drawable.fish_bones
-            1 -> R.drawable.fish
-            2 -> R.drawable.fish
+            1 -> R.drawable.head_fish
+            2 -> R.drawable.half_fish
+            3 -> R.drawable.fish
             else -> R.drawable.fish_bones
         }
 

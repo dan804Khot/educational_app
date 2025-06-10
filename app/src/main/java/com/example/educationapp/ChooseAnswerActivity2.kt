@@ -187,7 +187,7 @@ class ChooseAnswerActivity2 : AppCompatActivity() {
         }
 
         nextButton.setOnClickListener {
-            question.attempts++
+            question.attempts+=2
             taskNumber.text = "${question.attempts}/2"
             if (question.attempts >= 2) {
                 secondAttemptsFailed++
@@ -243,7 +243,7 @@ class ChooseAnswerActivity2 : AppCompatActivity() {
         }
 
         nextButton.setOnClickListener {
-            question.attempts++
+            question.attempts+=2
             taskNumber.text = "${question.attempts}/2"
             if (question.attempts >= 2) {
                 secondAttemptsFailed++
@@ -357,6 +357,7 @@ class ChooseAnswerActivity2 : AppCompatActivity() {
     private fun showBadEnd() {
         prefs.edit {
             putBoolean("fish_recovered", false)
+            putInt("failed_attempts", 0)
         }
         val intent = Intent(this, BadEndActivity::class.java)
         startActivity(intent)

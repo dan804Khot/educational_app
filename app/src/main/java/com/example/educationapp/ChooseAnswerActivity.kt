@@ -55,7 +55,7 @@ class ChooseAnswerActivity : AppCompatActivity() {
                 ),
                 "Выводит элемент с индексом 0",
                 "В C# массивы индексируются с 0. scores[0] обращается к первому элементу массива.",
-                0 // Initialize attempts for each question
+                0
             ),
             Question(
                 2,
@@ -182,7 +182,7 @@ class ChooseAnswerActivity : AppCompatActivity() {
         }
 
         nextButton.setOnClickListener {
-            question.attempts++
+            question.attempts+=2
             taskNumber.text = "${question.attempts}/2"
             if (question.attempts >= 2) {
                 secondAttemptsFailed++
@@ -238,7 +238,7 @@ class ChooseAnswerActivity : AppCompatActivity() {
         }
 
         nextButton.setOnClickListener {
-            question.attempts++
+            question.attempts+=2
             taskNumber.text = "${question.attempts}/2"
             if (question.attempts >= 2) {
                 secondAttemptsFailed++
@@ -344,7 +344,7 @@ class ChooseAnswerActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             rootView.removeView(overlayLayout)
             showBadEnd()
-        }, 2000)
+        }, 3000)
     }
 
     private fun showBadEnd() {

@@ -2,6 +2,7 @@ package com.example.educationapp
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -28,6 +29,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var password: EditText
     private lateinit var registerButton: Button
     private lateinit var backButton: ImageButton
+    private lateinit var registeredEmailsPref: SharedPreferences
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +38,8 @@ class RegisterActivity : AppCompatActivity() {
         // Инициализация Firebase
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+
+        registeredEmailsPref = getSharedPreferences("registered_emails", Context.MODE_PRIVATE)
 
         // Найдем элементы интерфейса
         email = findViewById(R.id.email)
@@ -95,75 +99,102 @@ class RegisterActivity : AppCompatActivity() {
         }
         if (allConditions) {
             val emailText = email.text.toString().trim()
-            val firstNameText = firstName.text.toString().trim()
-            val lastNameText = lastName.text.toString().trim()
-            val middleNameText = middleName.text.toString().trim()
-            val groupText = group.text.toString().trim()
-            val passwordText = password.text.toString().trim()
-            checkUserExists(emailText) { exists ->
+            // Проверка в SharedPreferences
+            if (isEmailRegisteredLocally(emailText)) {
+                showEmailExistsError()
+                return
+            }
+
+            // Проверка в Firebase
+            checkEmailInFirebaseAuth(emailText) { exists ->
                 if (exists) {
-                    Toast.makeText(
-                        context,
-                        "Пользователь с таким email уже существует",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showEmailExistsError()
+                    saveEmailToLocalRegistry(emailText)
                 } else {
-                    // Регистрация в Firebase
-                    Toast.makeText(context, "Регистрация успешна", Toast.LENGTH_SHORT).show()
-                    registerUser(
-                        emailText,
-                        passwordText
-                    )
-                    // Сохраняем все данные в SharedPreferences
-                    saveUserDataToSharedPref(
-                        email = email.text.toString().trim(),
-                        firstName = firstName.text.toString().trim(),
-                        lastName = lastName.text.toString().trim(),
-                        middleName = middleName.text.toString().trim(),
-                        group = group.text.toString().trim()
-                    )
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
+                    checkUserExists(emailText) { existsInFirestore ->
+                        if (existsInFirestore) {
+                            showEmailExistsError()
+                            saveEmailToLocalRegistry(emailText)
+                        } else {
+                            proceedWithRegistration(emailText)
+                        }
+                    }
                 }
             }
 
         }
     }
 
-    private fun registerUser(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
+    private fun isEmailRegisteredLocally(email: String): Boolean {
+        return registeredEmailsPref.contains(email)
+    }
+
+    private fun saveEmailToLocalRegistry(email: String) {
+        registeredEmailsPref.edit().putBoolean(email, true).apply()
+    }
+
+    private fun checkEmailInFirebaseAuth(email: String, callback: (Boolean) -> Unit) {
+        auth.fetchSignInMethodsForEmail(email)
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    // Сохраняем данные пользователя в Firestore
-                    saveUserDataToFirestore(
-                        email,
-                        firstName.text.toString().trim(),
-                        lastName.text.toString().trim(),
-                        middleName.text.toString().trim(),
-                        group.text.toString().trim()
-                    )
-
-                    // Сохраняем все данные в SharedPreferences
-                    saveUserDataToSharedPref(
-                        email = email,
-                        firstName = firstName.text.toString().trim(),
-                        lastName = lastName.text.toString().trim(),
-                        middleName = middleName.text.toString().trim(),
-                        group = group.text.toString().trim()
-                    )
-
-                    Toast.makeText(this, "Регистрация успешна!", Toast.LENGTH_SHORT).show()
-                    finish()
+                    val signInMethods = task.result?.signInMethods ?: emptyList()
+                    callback(signInMethods.isNotEmpty())
                 } else {
-                    Toast.makeText(
-                        this,
-                        "Ошибка регистрации: ${task.exception?.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    callback(false)
                 }
             }
     }
+
+    private fun showEmailExistsError() {
+        Toast.makeText(
+            this,
+            "Пользователь с таким email уже зарегистрирован",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun proceedWithRegistration(emailText: String) {
+        val firstNameText = firstName.text.toString().trim()
+        val lastNameText = lastName.text.toString().trim()
+        val middleNameText = middleName.text.toString().trim()
+        val groupText = group.text.toString().trim()
+        val passwordText = password.text.toString().trim()
+
+        registerUser(
+            emailText,
+            passwordText,
+            firstNameText,
+            lastNameText,
+            middleNameText,
+            groupText
+        )
+    }
+
+    private fun registerUser(
+        email: String,
+        password: String,
+        firstName: String,
+        lastName: String,
+        middleName: String,
+        group: String
+    ) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    saveEmailToLocalRegistry(email)
+
+                    saveUserDataToFirestore(email, firstName, lastName, middleName, group)
+                    saveUserDataToSharedPref(email, firstName, lastName, middleName, group)
+
+                    Toast.makeText(this, "Регистрация успешна!", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                } else {
+                    showEmailExistsError()
+                }
+            }
+    }
+
 
     private fun saveUserDataToFirestore(
         email: String,
@@ -205,6 +236,7 @@ class RegisterActivity : AppCompatActivity() {
             putString("last_name", lastName)
             putString("middle_name", middleName)
             putString("group", group)
+            putString("password", password.toString())
             // Инициализируем статистику
             putInt("levels_completed", 0)
             putInt("current_level", 1)

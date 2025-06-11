@@ -26,18 +26,30 @@ class ChooseAnswerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_about_teacher)
-        initializeQuestions()
-        val speech = findViewById<TextView>(R.id.speechBubble)
-        speech.text = "Опытный кот-преподаватель с 9 жизнями опыта в обучении программированию C#. Любит объяснять сложные концепции простыми словами и поощрять студентов рыбками за успехи."
-        val continueButton = findViewById<Button>(R.id.buttonNext)
-        continueButton.setOnClickListener {
+        // Восстанавливаем прогресс
+        currentQuestionIndex = prefs.getInt("current_question_index", 0)
+        correctAnswersCount = prefs.getInt("correct_answers_count", 0)
+        secondAttemptsFailed = prefs.getInt("second_attempts_failed", 0)
+        val questionsStarted = currentQuestionIndex > 0 || correctAnswersCount > 0
+        if (questionsStarted) {
+            // Пропускаем вводный экран и сразу показываем вопросы
+            initializeQuestions()
             showQuestionScreen()
-        }
-        val exitButton = findViewById<Button>(R.id.exit_button)
-        exitButton.setOnClickListener {
-            finish()
+        } else {
+            // Показываем обычный вводный экран
+            setContentView(R.layout.activity_about_teacher)
+            initializeQuestions()
+
+            val speech = findViewById<TextView>(R.id.speechBubble)
+            speech.text = "Опытный кот-преподаватель с 9 жизнями опыта в обучении программированию C#. Любит объяснять сложные концепции простыми словами и поощрять студентов рыбками за успехи."
+            val continueButton = findViewById<Button>(R.id.buttonNext)
+            continueButton.setOnClickListener {
+                showQuestionScreen()
+            }
+            val exitButton = findViewById<Button>(R.id.exit_button)
+            exitButton.setOnClickListener {
+                finish()
+            }
         }
     }
 
@@ -265,6 +277,20 @@ class ChooseAnswerActivity : AppCompatActivity() {
         }
     }
 
+    private fun saveProgress() {
+        prefs.edit {
+            putInt("current_question_index", currentQuestionIndex)
+            putInt("correct_answers_count", correctAnswersCount)
+            putInt("second_attempts_failed", secondAttemptsFailed)
+
+            // Сохраняем попытки для каждого вопроса
+            questions.forEachIndexed { index, question ->
+                putInt("question_${index}_attempts", question.attempts)
+            }
+            apply()
+        }
+    }
+
     private fun checkLevelCompletion() {
         if (correctAnswersCount >= 3 && secondAttemptsFailed < 3) {
             val sharedPref = getSharedPreferences("LevelProgress", Context.MODE_PRIVATE)
@@ -353,6 +379,16 @@ class ChooseAnswerActivity : AppCompatActivity() {
             putBoolean("fish_recovered", false)
         }
         val intent = Intent(this, BadEndActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        saveProgress()
+        val intent = Intent(this, LevelMapActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        }
         startActivity(intent)
         finish()
     }

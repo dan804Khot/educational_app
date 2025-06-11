@@ -48,6 +48,7 @@ class ChooseAnswerActivity : AppCompatActivity() {
             }
             val exitButton = findViewById<Button>(R.id.exit_button)
             exitButton.setOnClickListener {
+                saveProgress()
                 finish()
             }
         }

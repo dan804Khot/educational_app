@@ -53,34 +53,26 @@ class MainActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(emailText, passwordText)
                 .addOnCompleteListener { loginTask ->
                     if (loginTask.isSuccessful) {
-                        // Успешный вход
                         startActivity(Intent(this, ChoiceOfDisciplinesActivity::class.java))
                     } else {
-                        // Анализируем конкретную ошибку
-                        when (loginTask.exception) {
-                            is FirebaseAuthInvalidUserException -> {
-                                Toast.makeText(
-                                    this,
-                                    "Пользователь с таким email не найден",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            is FirebaseAuthInvalidCredentialsException -> {
-                                Toast.makeText(
-                                    this,
-                                    "Неверный пароль",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            else -> {
-                                Toast.makeText(
-                                    this,
-                                    "Ошибка входа: ${loginTask.exception?.message}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                        // Проверяем, совпадает ли email и password с сохраненным в SharedPreferences
+                        val savedEmail = sharedPref.getString("user_email", "")
+                        val saved_password = sharedPref.getString("password", "")
+                        if (savedEmail != null && savedEmail.isNotEmpty() && savedEmail != emailText) {
+                            Toast.makeText(
+                                this,
+                                "Такого пользователя не существует",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            return@addOnCompleteListener
+                        }
+                        else if (saved_password != passwordText){
+                            Toast.makeText(
+                                this,
+                                "Неверный пароль",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            return@addOnCompleteListener
                         }
                     }
                 }

@@ -209,6 +209,7 @@ class ChooseAnswerActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.main_menu_button).setOnClickListener {
+            saveProgress()
             finish()
         }
     }
@@ -265,6 +266,7 @@ class ChooseAnswerActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.main_menu_button).setOnClickListener {
+            saveProgress()
             finish()
         }
     }
@@ -378,6 +380,18 @@ class ChooseAnswerActivity : AppCompatActivity() {
     private fun showBadEnd() {
         prefs.edit {
             putBoolean("fish_recovered", false)
+        }
+        prefs.edit {
+            putInt("current_question_index", 0)
+            putInt("correct_answers_count", 0)
+            putInt("second_attempts_failed", 0)
+            putBoolean("fish_recovered", false)
+
+            // Сбрасываем попытки для каждого вопроса
+            questions.forEachIndexed { index, _ ->
+                putInt("question_${index}_attempts", 0)
+            }
+            apply()
         }
         val intent = Intent(this, BadEndActivity::class.java)
         startActivity(intent)
